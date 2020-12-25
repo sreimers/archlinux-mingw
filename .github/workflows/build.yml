@@ -8,7 +8,9 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: |
-        echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+        echo ${{ secrets.DOCKER_TOKEN }} | docker login ghcr.io -u $GITHUB_ACTOR --password-stdin
+        #docker pull ghcr.io/github/sreimers/archlinux-mingw:latest
+        #docker build . -t archlinux-mingw --cache-from ghcr.io/github/sreimers/archlinux-mingw:latest
         docker build . -t archlinux-mingw
-        docker tag archlinux-mingw docker.pkg.github.com/$GITHUB_REPOSITORY/archlinux-mingw:1.0
-        docker push docker.pkg.github.com/$GITHUB_REPOSITORY/archlinux-mingw:1.0
+        docker tag archlinux-mingw ghcr.io/sreimers/archlinux-mingw:1.0
+        docker push ghcr.io/sreimers/archlinux-mingw:1.0
