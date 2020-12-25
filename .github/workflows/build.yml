@@ -1,0 +1,15 @@
+name: Build
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+      echo ${{ secrets.GITHUB_TOKEN }} | docker login docker.pkg.github.com -u $GITHUB_ACTOR --password-stdin
+      docker build . -t archlinux-mingw
+      docker tag archlinux-mingw docker.pkg.github.com/$GITHUB_REPOSITORY/archlinux-mingw:1.0
+      docker push docker.pkg.github.com/$GITHUB_REPOSITORY/archlinux-mingw:1.0
